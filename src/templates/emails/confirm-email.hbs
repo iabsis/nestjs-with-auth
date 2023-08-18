@@ -1,0 +1,95 @@
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8' />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Lucky winner TulipArt</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+
+    <style>
+        html, body {
+            padding: 20px 0 0 0;
+            margin: 0;
+            width: 100%;
+        }
+        body {
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        a, a:visited, a:hover, a:active {
+            color: #00888a
+        }
+        
+        .logo {
+            margin: auto auto 40px auto;
+            padding: 20px 0;
+            width: 400px;
+            max-width: 80%;
+            border-top: 1px solid #00888a;
+            border-bottom: 1px solid #00888a;
+        }
+
+        .footer {
+            background-color: #131313;
+            padding: 30px;
+            color: white;
+            margin: 50px auto 0 auto;
+        }
+
+
+        .btn {
+            border: 1px solid #00888a;
+            border-radius: 6px;
+            color: #00888a;
+            padding: 0.375rem 0.75rem;
+            margin-bottom: 50px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            color: #005758;
+            border-color: #005758;
+        }
+
+        .tulip {
+            text-align: center; 
+            width: 208px;
+            height: 290px;
+            border-radius: 16px;
+            border: 6px solid white;
+            box-shadow: 0 4px 40px rgb(0 0 0 / 12%);
+            margin: 20px auto;
+        }
+
+        .block  {
+            margin: 50px auto;
+        }
+
+    </style>
+</head>
+
+<body>
+    {{!-- <div class='logo'>
+        <img src='cid:logo' alt='TulipArt.com®' />
+    </div> --}}
+
+    <p>Hello {{user.firstname}},</p>
+    <p>Your account has been created successfully.</p>
+    <p>Please click the link below to validate your account</p>
+
+    <p>
+        <a class="btn btn-primary" href='{{link}}'>Claim now</a>
+    </p>
+
+    <p>Kind Regards,</p>
+
+    <div class="block">
+        <p><strong>Support Team</strong></p>
+    </div>
+
+</body>
+
+</html>

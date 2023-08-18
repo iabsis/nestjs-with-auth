@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Interface</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-dark">
+        <p>Feedback regarding the current status of the project</p>
+<h2 id="interface">Interface</h2>
+<ul>
+<li>I would keep the sidebar menu with a fixed width. Currently the width changes a bit depending the window width</li>
+</ul>
+<h2 id="structure">Structure</h2>
+<ul>
+<li>I suggest to move to this kind of structure which will be more readable once the project is growing up</li>
+</ul>
+<pre><code>app/
+├─ public/
+│  ├─ public resources....*
+├─ src/
+│  ├─assets
+│  ├─ components
+│  │  ├─ button
+│  │  │  ├─ button.tsx
+│  │  │  ├─ button.scss
+│  │  │  ├─ button.test.tsx
+│  ├─ pages
+│  │  ├─ legals
+│  │  │  ├─ create
+│  │  │  │  │  ├─ components
+│  │  │  │  │  │  ├─ componentA &lt;-- Components only used by the parent component (same structure as global components)
+│  │  │  │  ├─ create.messages.tsx
+│  │  │  │  ├─ create.page.tsx
+│  │  │  │  ├─ create.page.scss
+│  │  │  │  ├─ create.test.tsx
+│  │  │  ├─ edit
+│  │  │  │  ├─ edit.messages.tsx
+│  │  │  │  ├─ edit.page.tsx
+│  │  │  │  ├─ edit.page.scss
+│  │  │  │  ├─ edit.test.tsx
+│  │  │  ├─ list
+│  │  │  │  ├─ list.messages.tsx
+│  │  │  │  ├─ list.page.tsx
+│  │  │  │  ├─ list.page.scss
+│  │  │  │  ├─ list.test.tsx
+│  ├─ styles &lt;-- Put here the different styles
+│  │  ├─ reset.scss &lt;-- Put here the different styles
+│  │  ├─ margins.scss &lt;-- Put here the different styles
+│  ├─ tramslations &lt;-- Put here the different translation files
+│  │  ├─ en.json
+│  │  ├─ de.json
+│  │  ├─ fr.json
+│  │  ├─ it.json
+├─ App.tsx
+├─ global.scss
+</code></pre>
+<h2 id="routing">Routing</h2>
+<p>I would use this approach :</p>
+<pre><code class="language-tsx"><span class="hljs-comment">// App.jsx</span>
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">App</span> = (<span class="hljs-params"></span>) =&gt; {
+    <span class="hljs-keyword">return</span> (
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Router</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Layout</span>&gt;</span> {/* The Layout component would embed the global template (header / footer / menu) and accept children to display the page content */}
+        <span class="hljs-tag">&lt;<span class="hljs-name">Switch</span>&gt;</span>
+          {/* Event section */}
+          <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">exact</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;/&quot;</span> <span class="hljs-attr">component</span>=<span class="hljs-string">{DashboardPage}</span> /&gt;</span>  {/* Dashboard */}
+          <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">exact</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;/event&quot;</span> <span class="hljs-attr">component</span>=<span class="hljs-string">{EventListPage}</span> /&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">exact</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;/event/add&quot;</span> <span class="hljs-attr">component</span>=<span class="hljs-string">{EventCreatePage}</span> /&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">exact</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;/event/edit/:id&quot;</span> <span class="hljs-attr">component</span>=<span class="hljs-string">{EventEditPage}</span> /&gt;</span>
+         
+          {/* Legals section */}
+          <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">exact</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;/legal&quot;</span> <span class="hljs-attr">component</span>=<span class="hljs-string">{LegalListPage}</span> /&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">exact</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;/legal/add&quot;</span> <span class="hljs-attr">component</span>=<span class="hljs-string">{LegalCreatePage}</span> /&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">exact</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;/legal/edit/:id&quot;</span> <span class="hljs-attr">component</span>=<span class="hljs-string">{LegalEditPage}</span> /&gt;</span>
+
+          {/* Other sections... */}
+        <span class="hljs-tag">&lt;/<span class="hljs-name">Switch</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">Layout</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">Router</span>&gt;</span></span>
+  );
+};
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title class_">App</span>;
+</code></pre>
+<h2 id="internationalization">Internationalization</h2>
+<p>We need to implement react-intl in order to translate the interface in 4 languages (de, en, fr, it).</p>
+<p><a href="https://formatjs.io/docs/react-intl">https://formatjs.io/docs/react-intl</a></p>
+<p>Each component / page will have a *.messages.tsx, and we should use this way to define messages list :</p>
+<pre><code class="language-tsx"><span class="hljs-keyword">import</span> {defineMessages} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react-intl&#x27;</span>
+
+<span class="hljs-title function_">defineMessages</span>({
+  <span class="hljs-attr">foo</span>: {
+    <span class="hljs-attr">id</span>: <span class="hljs-string">&#x27;foo&#x27;</span>,
+    <span class="hljs-attr">defaultMessage</span>: <span class="hljs-string">&#x27;foo&#x27;</span>,
+    <span class="hljs-attr">description</span>: <span class="hljs-string">&#x27;bar&#x27;</span>,
+  },
+})
+</code></pre>
+
+        
+        
+    </body>
+    </html>
